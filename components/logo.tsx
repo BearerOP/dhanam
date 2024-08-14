@@ -1,78 +1,37 @@
+"use client";
 
-"use client"
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { motion } from "framer-motion";
-
-const logoStyle: { 
-    container: React.CSSProperties;
-    containerHover: React.CSSProperties;
-    text: React.CSSProperties;
-} = {
-    container: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '50px', // Adjust the width as needed
-        height: '50px', // Adjust the height as needed
-        background: 'linear-gradient(to bottom, #0a0217, #451b90)', // Gradient background
-        borderRadius: '10px', // Rounded corners
-        fontSize: '36px', // Adjust the font size as needed
-        color: 'white', // Font color
-        fontFamily: "'Noto Sans', Arial, sans-serif", // Using Noto Sans font
-        textAlign: 'center',
-        transition: 'all ease-in-out 500ms',
-    },
-    containerHover: {
-        boxShadow: '0 4px 6px rgba(195, 161, 161, 0.1)', // Subtle shadow for depth
-        transform: 'translateY(-5px)', // Scale up on hover
-    },
-    text: {
-        background: 'linear-gradient(to bottom, #8f21cf, #ecccff)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        fontFamily: "'Noto Sans', Arial, sans-serif",
-        paddingBottom: '5px',
-        fontWeight:'900'
-    },
-};
+import React, { useState, useEffect } from 'react';
+import { useTheme } from 'next-themes'; // Import useTheme hook from next-themes
+import MinimalLoaderComponent from './loader'; // Import the MinimalLoader component
 
 const Logo: React.FC = () => {
-    const [isHovered, setIsHovered] = useState<boolean>(false);
+  const { theme } = useTheme(); // Get the current theme
+  const [loading, setLoading] = useState(true); // State to track loading status
 
-    return (
-        <motion.div
-        className="flex flex-col gap-4"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{
-          duration: 0.3,
-          ease: "easeInOut",
-        }}
-      >
-        <div className='flex justify-center items-center'>
-            <div
-                style={{
-                    ...logoStyle.container,
-                    ...(isHovered ? logoStyle.containerHover : {}),
-                }}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-            >
-                <span className='flex justify-center items-center'>
-                    <Link
-                        href="/"
-                        style={logoStyle.text}
-                    >
-                        ध
-                        {/* अ */}
-                        {/* स */}
-                    </Link>
-                </span>
-            </div>
-        </div>
-        </motion.div>
-    );
-}
+  // Handler to update loading status
+  const handleImageLoad = () => setLoading(false);
 
-export { Logo, logoStyle };
+  // This effect is for handling the image load event
+  useEffect(() => {
+    setLoading(true); // Set loading to true when the component mounts
+  }, [theme]);
+
+  const logoSrc =
+    theme === 'dark'
+      ? 'https://firebasestorage.googleapis.com/v0/b/theslugproject.appspot.com/o/logo-dark.png?alt=media&token=064ce29f-3e0d-4225-9fd3-ff2cdbf09c40'
+      : 'https://firebasestorage.googleapis.com/v0/b/theslugproject.appspot.com/o/logo-light.png?alt=media&token=538ebbba-07bd-4521-8cb5-1a0407d98b84';
+
+  return (
+    <div className='h-16 w-16'>
+      {loading && <MinimalLoaderComponent />} 
+      <img
+        src={logoSrc}
+        alt="Logo"
+        className={`h-16 ${loading ? 'hidden' : ''}`} // Hide logo while loading
+        onLoad={handleImageLoad} // Set loading to false when image is loaded
+      />
+    </div>
+  );
+};
+
+export default Logo;

@@ -1,4 +1,4 @@
-import { Logo } from "@/components/logo";
+import Logo  from "@/components/logo";
 import { ModeToggle } from "@/components/ui/theme-button";
 import WalletGenerator from "@/components/walletGenerator";
 

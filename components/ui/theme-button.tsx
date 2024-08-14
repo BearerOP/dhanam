@@ -20,6 +20,10 @@ export function ModeToggle() {
     (theme === "system" &&
       window.matchMedia("(prefers-color-scheme: dark)").matches);
 
+  const handleThemeChange = (checked: boolean) => {
+    setTheme(checked ? "dark" : "light");
+  };
+
   return (
     <div className="flex items-center gap-2">
       <Sun
@@ -27,7 +31,7 @@ export function ModeToggle() {
       />
       <Switch
         checked={isDarkMode}
-        onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
+        onCheckedChange={handleThemeChange}
       />
       <Moon
         className={`h-5 w-5 ${isDarkMode ? "text-primary" : "text-primary/50"}`}
