@@ -8,13 +8,14 @@ export const metadata: Metadata = {
     {
       rel: 'icon',
       type: 'image/x-icon',
-      url: '/favicon-light.ico',
+      url: './app/favicon-light.ico',
       media: '(prefers-color-scheme: light)',
+      
     },
     {
       rel: 'icon',
       type: 'image/png',
-      url: '/favicon-dark.ico',
+      url: './app/favicon-dark.ico',
       media: '(prefers-color-scheme: dark)',
     },
   ],
